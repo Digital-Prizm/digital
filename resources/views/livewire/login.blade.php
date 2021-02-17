@@ -33,8 +33,8 @@
 			  </li>
 			  @endif
 			  @if(count($errors) > 0)
-				@foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+				@foreach ($errors->all() as $this_error)
+                    <li>{{ $this_error }}</li>
                 @endforeach
 				@endif
 			</ul>

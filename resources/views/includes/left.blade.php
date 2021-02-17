@@ -15,8 +15,8 @@
                 <span class="flex min-w-0 items-center justify-between space-x-3">
                   <img class="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt="">
                   <span class="flex-1 min-w-0">
-                    <span class="text-gray-900 text-sm font-medium truncate">{{ session("name")}}</span>
-                    <span class="text-gray-500 text-sm truncate">{{ session("email")}}</span>
+                    <span class="text-gray-900 text-sm font-medium truncate">{{ session("name") }}</span>
+                    <span class="text-gray-500 text-sm truncate">{{ session("email") }}</span>
                   </span>
                 </span>
                 <!-- Heroicon name: solid/selector -->

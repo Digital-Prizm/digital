@@ -5,26 +5,28 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\NoteModal;
 use App\Models\Util;
+use Auth;
 class Note extends Component
 {
-    public $edit_id,$data, $title, $description, $createdDate,$error,$errors,$updatedDate;
-    public $mode = "";
+    public $edit_id,$data, $title, $description, $createdDate,$error,$errors,$updatedDate,$notify_modal=0,$notify_content,$test;
+    public $mode = "",$tt;
+	
 	public function index()
     {
-		if(!Util::checkUserSession()) {
-			//return redirect()->to('/login');
-			$this->redirect('/login');
-			//return view();
-			
-		}else {
-			$this->render();
+		//if(!Util::checkUserSession()) {
+		if(!Auth::check()) {   	
+			return redirect()->to('/login');
 		}
-        //$this->data = NoteModal::all();
-        //return view('livewire.note');
+		$this->data = NoteModal::all();
+	
+        return view('note');
+
     }
+	
     public function render()
     {
-		if(!Util::checkUserSession()) {
+		//if(!Util::checkUserSession()) {
+		if(!Auth::check()) {   	
 			//return redirect()->to('/login');
 			$this->redirect('/login');
 			//return view();
@@ -33,6 +35,7 @@ class Note extends Component
         $this->data = NoteModal::all();
         return view('livewire.note');
     }
+	
     public function createNote()
     {
 		if($this->mode=="edit") {
@@ -64,6 +67,9 @@ class Note extends Component
         $this->title = $record->title;
         $this->description = $record->description;
         $this->mode = 'edit';
+		//$this->test = date("s");
+		
+		//session()->flash('notify_content', 'Post successfully updated.');
     }
     public function update()
     {
@@ -82,10 +88,11 @@ class Note extends Component
 				]);
 				$this->resetForm();
 				$this->mode = "";
-				session()->flash('message', 'Note successfully updated.');
-				$this->data = NoteModal::all();
-			
+			//	session()->flash('message', 'Note successfully updated.');
 				
+				$this->notify_modal = 1;
+				$this->notify_content = 'Content updated successfully!';
+				$this->data = NoteModal::all();
 			}
 		
 		} catch (Throwable $e) {
@@ -108,7 +115,15 @@ class Note extends Component
 		$this->mode = '';
 		$this->error="";
 		$this->errors=null;
+		$this->notify_modal = 0;
+		$this->notify_content = '';
 		$this->resetErrorBag();
 		$this->resetValidation();
     }
+	public function closeModal() {
+
+	 	$this->notify_modal = 0;
+		$this->notify_content = '';
+
+	}
 }

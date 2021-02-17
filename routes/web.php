@@ -12,28 +12,29 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
-
+*/
 //Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+
+Route::get('/registration', 'Register@registerForm');
 
 // Set for Login
 
-//Route::get('/login', Login::class);
-Route::view('login', 'login');
-Route::view('dashboard', 'dashboard');
-Route::view('/note', 'note');
 
-//Route::post('/login', 'HomeController@login');
-Route::get('/logout', 'login@logout');
-//Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+#Route::get('/login', 'Login@loginForm');
+#Route::get('/dashboard', 'Dashboard@dashboard');
+Route::get('/note', 'Note@index');
 
 
-// Set for Main modules
+#Route::get('/logout', 'Login@logout');
 
-//Route::get('/note', 'NoteController@index')->name('index');
+#Route::get('/test', 'Test@index');

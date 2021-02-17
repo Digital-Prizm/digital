@@ -1,3 +1,4 @@
+
 <div class="flex flex-col w-0 flex-1 overflow-hidden">
   
     <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabindex="0">
@@ -9,6 +10,7 @@
           </h1>
         </div>
       </div>
+	  <div>data= {{ $tt }}</div>
       <!-- Pinned projects -->
      <!-- ######### MAIN content ######################## -->
    <div class="border-b border-gray-200  sm:flex  sm:items-center sm:justify-between  lg:px-8">
@@ -127,6 +129,8 @@
 			</div>
 	
 			
+			@include('includes.util')
+			
 				</div>
 			
 			
@@ -204,6 +208,8 @@
 	
    </div> 
 
+
+
 <!-- #### end ####################### -->
     </main>
 </div>
@@ -273,7 +279,7 @@
   </div>
 </div>
 <script>
-
+/*
 	function clearAll() {
 		$(".alert").hide();
 	}
@@ -285,5 +291,7 @@ Livewire.on("clearall", () => {
 	});
 
 	
-})
+}) */
 </script>	
+
+<!-- This example requires Tailwind CSS v2.0+ -->
