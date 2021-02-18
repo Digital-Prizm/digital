@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('salutation_id');
+            $table->string('name');
             $table->string('firstname');
             $table->string('lastname');
             $table->string('gender_id');
@@ -55,17 +56,22 @@ class CreateUsersTable extends Migration
             $table->string('family_color_indicator')->nullable();
             $table->text('file_single');
             $table->json('file_multiple');
+            $table->text('file_single_name');
+            $table->text('file_multiple_name');
             $table->datetime('expiry_date');
             $table->datetime('expiry_before_date')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->foreignId('current_team_id')->nullable();
+            $table->text('profile_photo_path')->nullable();
             $table->string('status');
             $table->datetime('created_at');
             $table->string('created_by');
             $table->datetime('updated_at');
             $table->string('updated_by');
+
             //$table->foreignId('current_team_id')->nullable();
         });
 

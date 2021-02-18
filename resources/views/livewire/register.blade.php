@@ -18,7 +18,7 @@
 
         <x-jet-validation-errors class="mb-4" />
 
-        <form  wire:submit.prevent="register" enctype="multipart/form-data">
+        <form name="frmRegistration" wire:submit.prevent="register" enctype="multipart/form-data">
             @csrf
           
             <div>
@@ -58,7 +58,7 @@
 
         
             </div>
-
+            @if($form==1  || $form_all==1)
             <div>
                 <x-jet-label for="salutation_id" value="{{ __('Salutation') }}" />
                 <!--<x-jet-input id="salutation" class="block mt-1 w-full" type="text" name="salutation" :value="old('salutation')" required autofocus autocomplete="salutation" />-->
@@ -72,8 +72,8 @@
                   </div>
 
             </div>
-            <div>  {{ $message }}</div>
-            
+                  
+          
             <div>
                 <x-jet-label for="firstname" value="{{ __('First Name') }}" />
                 <x-jet-input id="firstname"  wire:model="firstname" value="test" class="block mt-1 w-full" type="text" name="firstname"  required autofocus autocomplete="firstname" />
@@ -135,9 +135,17 @@
                 <p class="md:mx-2 text-sm font-light text-gray-400"> Company Details </p> 
                 <div style="height: 1px;" class="bg-gray-300 md:block hidden w-4/12"></div>
             </div>
+           <!-- <div>
+                <div class="float-right -my-8">
+                <x-jet-button type="button" wire:click="formShow(2)" class="ml-4">
+                    {{ __('Continue') }}
+                </x-jet-button>
+                </div>
+            </div>
+        -->
+            @endif
 
-
-
+            @if($form==2  || $form_all==1)
             <div>
                 <x-jet-label for="occupation_id" value="{{ __('occupation') }}" />
                  <div>
@@ -212,8 +220,22 @@
 
             </div>
 
+           <!-- <div class="float-left">
+                <x-jet-button type="button" wire:click="formShow(1)" class="ml-4">
+                    {{ __('Back') }}
+                </x-jet-button>
+            </div>
 
+            <div class="float-right">
+                <x-jet-button type="button" wire:click="formShow(3)" class="ml-4">
+                    {{ __('Continue') }}
+                </x-jet-button>
+            </div>
+        -->
 
+            @endif
+
+            @if($form==3  || $form_all==1)
             <div class="flex md:justify-between justify-center items-center mt-10">
                 <div style="height: 1px;" class="bg-gray-300 md:block hidden w-4/12"></div>
                 <p class="md:mx-2 text-sm font-light text-gray-400"> Family Details </p> 
@@ -283,7 +305,7 @@
                            <div class="flex items-center">
                                <div>
                                    <x-jet-label for="family_color_indicator" value="{{ __('Color Indicatior') }}" />
-                                   <input id="family_color_indicator" type="text" class="block mt-1 w-full" placeholder="Pick a color"
+                                   <input id="family_color_indicator" wire:model="family_color_indicator" name="family_color_indicator" type="text" class="block mt-1 w-full" placeholder="Pick a color"
                                        lass="border border-transparent shadow px-4 py-2 leading-normal text-gray-700 bg-white rounded-md focus:outline-none focus:shadow-outline"
                                        readonly 
                                        x-model="family_color_indicator">
@@ -360,10 +382,16 @@
             <div>
                 <x-jet-label for="file_single" value="{{ __('Single Upload') }}" />
                 <x-jet-input id="file_single" wire:model="file_single" class="block mt-1 w-full" type="file" name="file_single" required  autofocus autocomplete="file_single" />
+            
+                <x-jet-label for="file_single_name" value="{{ __('Name') }}" />
+                <x-jet-input id="file_single_name" wire:model="file_single_name" class="block mt-1 w-full" type="text" name="file_single_name"   autofocus autocomplete="file_single_name" />
             </div>
+
             <div>
                 <x-jet-label for="file_multiple" value="{{ __('Multi File Upload') }}" />
                 <x-jet-input id="file_multiple" wire:model="file_multiple" class="block mt-1 w-full" type="file" name="file_multiple" multiple   autofocus autocomplete="file_multiple" />
+                <x-jet-label for="file_multiple_name" value="{{ __('Name') }}" />
+                <x-jet-input id="file_multiple_name" wire:model="file_multiple_name" class="block mt-1 w-full" type="text" name="file_multiple_name"   autofocus autocomplete="file_multiple_name" />
             </div>
             <div>
                 <x-jet-label for="expiry_date" value="{{ __('Expiry Date') }}" />
@@ -373,9 +401,22 @@
                 <x-jet-label for="expiry_before_date" value="{{ __('Before Expiry Date') }}" />
                 <x-jet-input id="expiry_before_date" wire:model="expiry_before_date" class="block mt-1 w-full" type="text" name="expiry_before_date"  autofocus autocomplete="expiry_before_date" />
             </div>
+            <!--
+            <div class="float-left">
+                <x-jet-button type="button" wire:click="formShow(2)" class="ml-4">
+                    {{ __('Back') }}
+                </x-jet-button>
+            </div>
 
+            <div class="float-right">
+                <x-jet-button type="button" wire:click="formShow(4)" class="ml-4">
+                    {{ __('Continue') }}
+                </x-jet-button>
+            </div>
+        -->
+            @endif
 
-
+            @if($form==4 || $form_all==1)
             <div class="flex md:justify-between justify-center items-center mt-10">
                 <div style="height: 1px;" class="bg-gray-300 md:block hidden w-4/12"></div>
                 <p class="md:mx-2 text-sm font-light text-gray-400"> Login Credentials </p> 
@@ -414,6 +455,7 @@
                 </div>
             @endif
 
+        
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
@@ -423,6 +465,9 @@
                     {{ __('Register') }}
                 </x-jet-button>
             </div>
+        
+            @endif
+
         </form>
 
 </div>
@@ -433,5 +478,13 @@
       initDOBDatepicker();
       initExpiryDateDatepicker();
       initExpiryBeforeDateDatepicker();
-  
+function formSubmit() {
+    document.frmRegistration.submit();
+}  
+
+window.addEventListener('formSubmit', event => {
+    //alert('Name updated to: ' + event.detail.newName);
+   // document.frmRegistration.submit();
+})
+
 </script>

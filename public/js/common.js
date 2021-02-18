@@ -67,8 +67,6 @@ function initDOBDatepicker() {
     },2000);
     
     }
-
-
      /**
      * Initializing expiry before date field using pickaday plugin
      *
@@ -102,4 +100,3 @@ function initDOBDatepicker() {
     },2000);
     
     }
-

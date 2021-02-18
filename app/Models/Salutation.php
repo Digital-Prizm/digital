@@ -21,7 +21,7 @@ class Salutation extends Model
      * @var array
      */
     protected $fillable = [
-        'id','value'
+        'value'
     ];
 
 

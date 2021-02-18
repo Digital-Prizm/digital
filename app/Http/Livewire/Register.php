@@ -20,13 +20,13 @@ class Register extends Component
 {
 	public $edit_id,$data,$message,$error;
     public $salutation_id, $firstname="test", $lastname="ll", $gender_id="1",$phone="34343",$mobile="232323";
-    public $company_address,$primary_address="dfsdf",$secondary_address="Sdfsdf",$dob="1980-01-02",$assumed_date="2000-10-02",$occupation_id="1",$company_name="DIG",$industry_id="1",$sub_industry="1",$skill="fsd",$rate="3",$family_firstname="dfsdf",$family_lastname,$family_gender_id="1",$family_email="sdfsd@sdfasd.com",$family_phone="23423",$family_relation_id="father",$family_color_indicator,$expiry_date="1980-02-03",$expiry_before_date, $email="test@test.com", $password="password",$role_id,$updated_at,$created_at;
-    public $file_single,$file_multiple=[],$master_sub_industry=[];
-    public $mode = "";
+    public $company_address,$primary_address="dfsdf",$secondary_address="Sdfsdf",$dob="1980-01-02",$assumed_date="2000-10-02",$occupation_id="1",$company_name="DIG",$industry_id="1",$sub_industry_id="1",$skill="fsd",$rate="3",$family_firstname="dfsdf",$family_lastname,$family_gender_id="1",$family_email="sdfsd@sdfasd.com",$family_phone="23423",$family_relation_id="father",$family_color_indicator,$expiry_date="1980-02-03",$expiry_before_date, $email="test@test.com", $password="password",$role_id,$updated_at,$created_at;
+    public $file_single,$file_multiple=[],$master_sub_industry=[],$file_single_name,$file_multiple_name;
+    public $mode = "",$form=1,$form_all=1;
   //  public Post $post;
     use WithFileUploads;
 
-    protected $listeners = ['listener_calculateAssumedDate' => 'calculateAssumedDate'];
+    //protected $listeners = ['listener_calculateAssumedDate' => 'calculateAssumedDate'];
 
     /**
      * Load the Registration form
@@ -70,12 +70,38 @@ class Register extends Component
      * @return array()
      */
     public function getSubIndustry() {
-        Log::info('getSubIndustry...');
+        //Log::info('getSubIndustry...');
         //$this->master_sub_industry = Sub_industry::all();
         $this->master_sub_industry = DB::table('sub_industry')->where('industry_id', $this->industry_id)->get();
        
         Log::info('data = '.$this->master_sub_industry);
     }
+
+     /**
+     * Show forms
+     *
+     * @return array()
+     */
+    public function formShow($no) {
+        
+        //$this->master_sub_industry = Sub_industry::all();
+        $this->form = $no;
+        
+    }
+
+     /**
+     * Show forms
+     *
+     * @return array()
+     */
+    public function formAllShow() {
+        
+        $this->form_all = 1;
+     
+        $this->dispatchBrowserEvent('formSubmit');
+        
+    }
+
     /**
      * To calculate  DOB + 11 Years 7 Months + 3 Days 
      * And set it to assumed date
@@ -100,6 +126,9 @@ class Register extends Component
     {
             
 		 try {
+             
+            // Validating user details
+
 			$this->validate([
 				'firstname' => 'required|min:2',
 				'lastname' => 'required|min:2',
@@ -121,26 +150,26 @@ class Register extends Component
 
 			]);
              
-            $file_single_name = "single_file".time()."_".$this->file_single->getClientOriginalName();
-            $this->file_single->storeAs('files', $file_single_name);
+            $this_single_path = "single_file".time()."_".$this->file_single->getClientOriginalName();
+            $this->file_single->storeAs('files', $this_single_path);
             
-            $file_multiple_name = [];
+            $this_multiple_path = [];
             if(!empty($this->file_multiple)) {
                 foreach ($this->file_multiple as $file) {
                     $file_name = "file_multiple".time()."_".$file->getClientOriginalName();
                     $file->storeAs('files',$file_name);
-                    $file_multiple_name[] = $file_name;
+                    $this_multiple_path[] = $file_name;
                 }
             }
-            $this->message = $this->file_single->getClientOriginalName();
+            //$this->message = $this->file_single->getClientOriginalName();
 
-            $file_multiple_name = json_encode($file_multiple_name);
+            $this_multiple_path = json_encode($this_multiple_path);
             
 //$this->message = "#".$this->firstname."=".$this->salutation;
 
   //          return false;
 
-			User::create([
+			$data = User::create([
                 'salutation_id' => $this->salutation_id,
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
@@ -165,8 +194,10 @@ class Register extends Component
                 'family_gender_id' => $this->family_gender_id,
                 'family_relation_id' => $this->family_relation_id,
                 'family_color_indicator' => $this->family_color_indicator,
-                'file_single' => $file_single_name,
-                'file_multiple' => $file_multiple_name,
+                'file_single' => $this_single_path,
+                'file_single_name' => $this->file_single_name,
+                'file_multiple' => $this_multiple_path,
+                'file_multiple_name' => $this->file_multiple_name,
                 'expiry_date' => $this->expiry_date,
                 'expiry_before_date' => $this->expiry_before_date,
                 'email' => $this->email,
@@ -176,6 +207,14 @@ class Register extends Component
                 'status' => 'A',
 			]);
 		
+            DB::table('teams')->insert(
+                array(
+                    'user_id' => $data->id,
+                    'name' => $this->firstname,
+                    'personal_team' => 1,
+                )
+            );
+
             return redirect()->to('/login');
 
 			//$this->resetForm();
