@@ -21,7 +21,7 @@
         <form name="frmRegistration" wire:submit.prevent="register" enctype="multipart/form-data">
             @csrf
           
-            <div>
+            <div id="section-alert">
 
                 @if(session()->has('message'))
         
@@ -379,7 +379,7 @@
                 <div style="height: 1px;" class="bg-gray-300 md:block hidden w-4/12"></div>
             </div>
 
-            <div>
+            <div  class="mt-3">
                 <x-jet-label for="file_single" value="{{ __('Single Upload') }}" />
                 <x-jet-input id="file_single" wire:model="file_single" class="block mt-1 w-full" type="file" name="file_single" required  autofocus autocomplete="file_single" />
             
@@ -387,13 +387,13 @@
                 <x-jet-input id="file_single_name" wire:model="file_single_name" class="block mt-1 w-full" type="text" name="file_single_name"   autofocus autocomplete="file_single_name" />
             </div>
 
-            <div>
+            <div class="mt-3">
                 <x-jet-label for="file_multiple" value="{{ __('Multi File Upload') }}" />
                 <x-jet-input id="file_multiple" wire:model="file_multiple" class="block mt-1 w-full" type="file" name="file_multiple" multiple   autofocus autocomplete="file_multiple" />
                 <x-jet-label for="file_multiple_name" value="{{ __('Name') }}" />
                 <x-jet-input id="file_multiple_name" wire:model="file_multiple_name" class="block mt-1 w-full" type="text" name="file_multiple_name"   autofocus autocomplete="file_multiple_name" />
             </div>
-            <div>
+            <div  class="mt-3">
                 <x-jet-label for="expiry_date" value="{{ __('Expiry Date') }}" />
                 <x-jet-input id="expiry_date" wire:model="expiry_date" value="1980-10-04" class="block mt-1 w-full" type="text" name="expiry_date"  required autofocus autocomplete="expiry_date" />
             </div>

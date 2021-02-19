@@ -150,6 +150,13 @@ class Register extends Component
 
 			]);
              
+            if($this->isUserExists($this->email)) {
+                $this->error = "Sorry! This email already taken.";
+                $this->dispatchBrowserEvent('page:scroll-to', [
+                    'query' => '#section-alert',
+                ]);
+                return false;
+            }
             $this_single_path = "single_file".time()."_".$this->file_single->getClientOriginalName();
             $this->file_single->storeAs('files', $this_single_path);
             
@@ -223,10 +230,32 @@ class Register extends Component
 			} catch (\Illuminate\Database\QueryException $e) {
 				$this->error = $e->getMessage();
                 //report($e);
+                $this->dispatchBrowserEvent('page:scroll-to', [
+                    'query' => '#section-alert',
+                ]);
                 return false;
 			}
     }
+   /**
+     *  Check user already exists or not
+     *
+     * @return void
+     */
+    public function isUserExists($email)
+    {
+        if ($email!="") {
+            $record = DB::table('users')
+                ->where('email', '=', $email)
+                ->get();
+        }
 
+        if(isset($record[0])) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
 	public function resetForm()
     {
 		$this->mode = '';

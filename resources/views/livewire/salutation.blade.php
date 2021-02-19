@@ -11,37 +11,47 @@
 
 @include('includes.util')
 
+<div>
+@if($error || count($errors) > 0)
+<div class="rounded-md bg-red-50 p-4 alert">
+<div class="flex">
+<div class="flex-shrink-0">
+<!-- Heroicon name: solid/x-circle -->
+<svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+</svg>
+</div>
+<div class="ml-3">
+<h3 class="text-sm font-medium text-red-800">
+There were some errors with your submission   
+</h3>
+<div class="mt-2 text-sm text-red-700">
+<ul class="list-disc pl-5 space-y-1">
+@if($error!="")
+  <li>
+  {{ $error }}
+  </li>
+  @endif
+   @if (count($errors) > 0)
+        @foreach ($errors->all() as $this_error)
+          <li>{{ $this_error }}</li> 
+        @endforeach
+  @endif
+
+</ul>
+</div>
+</div>
+</div>
+</div>
+@endif
+</div>
+
 <div class="flex mx-10">
   <div class="w-full max-w-xs mt-6">
     <form name="frmSalutation" class="bg-white rounded px-8 pt-6 pb-8 mb-4">
         @csrf
         <input type="hidden" name="edit_id" id="edit_id" wire:modal="edit_id" />
-        <div>
-            @if(session()->has('message'))
-                   
-            <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
-                <div class="flex">
-                  <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
-                  <div>
-                    <p class="font-bold"> {{ session('message') }}</p>
-                    <!--<p class="text-sm"></p>-->
-                  </div>
-                </div>
-              </div>
-   
-         @endif
-         @if($error)
-    
-         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong class="font-bold">Error: </strong>
-            <span class="block sm:inline">{{ $error }}</span>
-            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-              <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
-            </span>
-          </div>
-        @endif
-
-        </div>
+       
        
       <div class="mb-4">
         <label class="block text-gray-600 text-sm font-semibold mb-2" for="value">
@@ -51,7 +61,7 @@
           class="bg-gray-100 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="value" name="value" wire:model="value"
           type="text" required 
-          placeholder="Enter gender"
+          placeholder="Enter salutation"
         />
       </div>
 
